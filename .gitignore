@@ -7,4 +7,5 @@ npm-debug.log*
 # Database backups
 *.dump
 toko_backup_*.dump
+toko_backup_*.sql
 
