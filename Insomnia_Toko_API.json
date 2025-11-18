@@ -5,9 +5,16 @@
   "__export_source": "insomnia.desktop.app:v2023.5.8",
   "resources": [
     {
+      "_id": "wrk_toko",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Toko API",
+      "description": "Toko API Collection"
+    },
+    {
       "_id": "fld_auth",
       "_type": "request_group",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "Authentication",
       "description": "Authentication endpoints: login, refresh token, logout"
     },
@@ -104,7 +111,7 @@
     {
       "_id": "fld_categories",
       "_type": "request_group",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "Categories",
       "description": "Categories CRUD operations (Admin only for POST/PUT/DELETE)"
     },
@@ -203,7 +210,7 @@
     {
       "_id": "fld_products",
       "_type": "request_group",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "Products",
       "description": "Products CRUD operations (Admin only for POST/PUT/DELETE)"
     },
@@ -302,7 +309,7 @@
     {
       "_id": "fld_transactions",
       "_type": "request_group",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "Transactions",
       "description": "Transactions CRUD operations (Admin only for GET/PUT, All authenticated users for POST)"
     },
@@ -415,7 +422,7 @@
     {
       "_id": "fld_user_management",
       "_type": "request_group",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "User Management",
       "description": "User management operations (Admin only)"
     },
@@ -534,7 +541,7 @@
     {
       "_id": "env_base",
       "_type": "environment",
-      "parentId": null,
+      "parentId": "wrk_toko",
       "name": "Base Environment",
       "data": {
         "base_url": "http://localhost:3000/api",
