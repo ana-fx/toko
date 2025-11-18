@@ -1,0 +1,550 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-11-18T16:55:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": null,
+      "name": "Authentication",
+      "description": "Authentication endpoints: login, refresh token, logout"
+    },
+    {
+      "_id": "req_login_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login - Admin",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"admin@toko.com\",\n  \"password\": \"admin123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_login_cashier",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login - Cashier",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"kasir1@toko.com\",\n  \"password\": \"cashier123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_login_wrong_email",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login - Wrong Email",
+      "url": "http://localhost:3000/api/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"wrong@toko.com\",\n  \"password\": \"admin123\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_refresh_token",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Refresh Token",
+      "url": "http://localhost:3000/api/auth/refresh",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ refreshToken }}\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_logout",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Logout",
+      "url": "http://localhost:3000/api/auth/logout",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ refreshToken }}\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "fld_categories",
+      "_type": "request_group",
+      "parentId": null,
+      "name": "Categories",
+      "description": "Categories CRUD operations (Admin only for POST/PUT/DELETE)"
+    },
+    {
+      "_id": "req_get_all_categories",
+      "_type": "request",
+      "parentId": "fld_categories",
+      "name": "GET All Categories",
+      "url": "http://localhost:3000/api/categories",
+      "method": "GET"
+    },
+    {
+      "_id": "req_get_category_by_id",
+      "_type": "request",
+      "parentId": "fld_categories",
+      "name": "GET Category By ID",
+      "url": "http://localhost:3000/api/categories/:id",
+      "method": "GET",
+      "parameters": [
+        {
+          "name": "id",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "_id": "req_create_category",
+      "_type": "request",
+      "parentId": "fld_categories",
+      "name": "POST Create Category",
+      "url": "http://localhost:3000/api/categories",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Kategori Baru\",\n  \"description\": \"Deskripsi kategori\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_update_category",
+      "_type": "request",
+      "parentId": "fld_categories",
+      "name": "PUT Update Category",
+      "url": "http://localhost:3000/api/categories/:id",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Pakaian Pria Updated\",\n  \"description\": \"Deskripsi updated\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "_id": "req_delete_category",
+      "_type": "request",
+      "parentId": "fld_categories",
+      "name": "DELETE Category",
+      "url": "http://localhost:3000/api/categories/:id",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "_id": "fld_products",
+      "_type": "request_group",
+      "parentId": null,
+      "name": "Products",
+      "description": "Products CRUD operations (Admin only for POST/PUT/DELETE)"
+    },
+    {
+      "_id": "req_get_all_products",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "GET All Products",
+      "url": "http://localhost:3000/api/products",
+      "method": "GET"
+    },
+    {
+      "_id": "req_get_product_by_id",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "GET Product By ID",
+      "url": "http://localhost:3000/api/products/:id",
+      "method": "GET",
+      "parameters": [
+        {
+          "name": "id",
+          "value": "26"
+        }
+      ]
+    },
+    {
+      "_id": "req_create_product",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "POST Create Product",
+      "url": "http://localhost:3000/api/products",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Kemeja Pria Baru\",\n  \"price\": 300000,\n  \"stock\": 20,\n  \"category_id\": 6\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_update_product",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "PUT Update Product",
+      "url": "http://localhost:3000/api/products/:id",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Kemeja Pria Updated\",\n  \"price\": 350000,\n  \"stock\": 25\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "26"
+        }
+      ]
+    },
+    {
+      "_id": "req_delete_product",
+      "_type": "request",
+      "parentId": "fld_products",
+      "name": "DELETE Product",
+      "url": "http://localhost:3000/api/products/:id",
+      "method": "DELETE",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "26"
+        }
+      ]
+    },
+    {
+      "_id": "fld_transactions",
+      "_type": "request_group",
+      "parentId": null,
+      "name": "Transactions",
+      "description": "Transactions CRUD operations (Admin only for GET/PUT, All authenticated users for POST)"
+    },
+    {
+      "_id": "req_get_all_transactions",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "GET All Transactions (Admin)",
+      "url": "http://localhost:3000/api/transactions",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_get_transaction_by_id",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "GET Transaction By ID (Admin)",
+      "url": "http://localhost:3000/api/transactions/:id",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "16"
+        }
+      ]
+    },
+    {
+      "_id": "req_create_transaction_admin",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "POST Create Transaction (Admin)",
+      "url": "http://localhost:3000/api/transactions",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"total_price\": 450000\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_create_transaction_cashier",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "POST Create Transaction (Cashier)",
+      "url": "http://localhost:3000/api/transactions",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"total_price\": 350000\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ cashierToken }}"
+        }
+      ]
+    },
+    {
+      "_id": "req_update_transaction",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "PUT Update Transaction (Admin)",
+      "url": "http://localhost:3000/api/transactions/:id",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"total_price\": 500000\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "16"
+        }
+      ]
+    },
+    {
+      "_id": "fld_user_management",
+      "_type": "request_group",
+      "parentId": null,
+      "name": "User Management",
+      "description": "User management operations (Admin only)"
+    },
+    {
+      "_id": "req_register_user",
+      "_type": "request",
+      "parentId": "fld_user_management",
+      "name": "POST Register User",
+      "url": "http://localhost:3000/api/auth/register",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"User Baru\",\n  \"email\": \"userbaru@toko.com\",\n  \"password\": \"password123\",\n  \"role\": \"admin\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_register_cashier",
+      "_type": "request",
+      "parentId": "fld_user_management",
+      "name": "POST Register Cashier",
+      "url": "http://localhost:3000/api/auth/register",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Cashier Baru\",\n  \"email\": \"cashierbaru@toko.com\",\n  \"password\": \"password123\",\n  \"role\": \"cashier\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_get_user_by_id",
+      "_type": "request",
+      "parentId": "fld_user_management",
+      "name": "GET User By ID (Profile)",
+      "url": "http://localhost:3000/api/users/:id",
+      "method": "GET",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "_id": "req_deactivate_user",
+      "_type": "request",
+      "parentId": "fld_user_management",
+      "name": "PUT Deactivate User",
+      "url": "http://localhost:3000/api/users/:id",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": false\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "_id": "req_reactivate_user",
+      "_type": "request",
+      "parentId": "fld_user_management",
+      "name": "PUT Reactivate User",
+      "url": "http://localhost:3000/api/users/:id",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": true\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ accessToken }}"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": null,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000/api",
+        "accessToken": "",
+        "cashierToken": "",
+        "refreshToken": ""
+      },
+      "color": null,
+      "isPrivate": false
+    }
+  ]
+}
+
