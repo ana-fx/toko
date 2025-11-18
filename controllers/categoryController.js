@@ -14,7 +14,24 @@ const getAllCategories = async (req, res) => {
 
 const getCategoryById = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Category ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid category ID. Must be a number' });
+    }
+
     const result = await pool.query(
       'SELECT * FROM categories WHERE id = $1',
       [id]
@@ -26,8 +43,8 @@ const getCategoryById = async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Get category by ID error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
@@ -53,7 +70,24 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Category ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid category ID. Must be a number' });
+    }
+
     const { name, description } = req.body;
 
     // Check if category exists
@@ -85,14 +119,30 @@ const updateCategory = async (req, res) => {
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Update category error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
 const deleteCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Category ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid category ID. Must be a number' });
+    }
 
     // Check if category exists
     const categoryCheck = await pool.query('SELECT id FROM categories WHERE id = $1', [id]);
@@ -103,8 +153,8 @@ const deleteCategory = async (req, res) => {
     await pool.query('DELETE FROM categories WHERE id = $1', [id]);
     res.json({ message: 'Category deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Delete category error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 

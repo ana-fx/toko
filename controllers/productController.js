@@ -17,7 +17,24 @@ const getAllProducts = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid product ID. Must be a number' });
+    }
+
     const result = await pool.query(
       `SELECT p.*, c.name as category_name 
        FROM products p 
@@ -32,8 +49,8 @@ const getProductById = async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Get product by ID error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
@@ -71,7 +88,24 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid product ID. Must be a number' });
+    }
+
     const { name, price, stock, category_id } = req.body;
 
     // Check if product exists
@@ -123,14 +157,30 @@ const updateProduct = async (req, res) => {
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Update product error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
 const deleteProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Product ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid product ID. Must be a number' });
+    }
 
     // Check if product exists
     const productCheck = await pool.query('SELECT id FROM products WHERE id = $1', [id]);
@@ -141,8 +191,8 @@ const deleteProduct = async (req, res) => {
     await pool.query('DELETE FROM products WHERE id = $1', [id]);
     res.json({ message: 'Product deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Delete product error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 

@@ -17,7 +17,24 @@ const getAllTransactions = async (req, res) => {
 
 const getTransactionById = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Transaction ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid transaction ID. Must be a number' });
+    }
+
     const result = await pool.query(
       `SELECT t.*, u.name as user_name, u.email as user_email 
        FROM transactions t 
@@ -32,8 +49,8 @@ const getTransactionById = async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Get transaction by ID error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
@@ -56,10 +73,14 @@ const createTransaction = async (req, res) => {
       return res.status(400).json({ error: 'User ID is required' });
     }
 
-    // Check if user exists
-    const userCheck = await pool.query('SELECT id FROM users WHERE id = $1', [userId]);
+    // Check if user exists and is active
+    const userCheck = await pool.query('SELECT id, is_active FROM users WHERE id = $1', [userId]);
     if (userCheck.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
+    }
+    
+    if (!userCheck.rows[0].is_active) {
+      return res.status(403).json({ error: 'User is inactive' });
     }
 
     const result = await pool.query(
@@ -76,7 +97,24 @@ const createTransaction = async (req, res) => {
 
 const updateTransaction = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Transaction ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid transaction ID. Must be a number' });
+    }
+
     const { total_price, user_id } = req.body;
 
     // Check if transaction exists
@@ -97,9 +135,12 @@ const updateTransaction = async (req, res) => {
       values.push(total_price);
     }
     if (user_id) {
-      const userCheck = await pool.query('SELECT id FROM users WHERE id = $1', [user_id]);
+      const userCheck = await pool.query('SELECT id, is_active FROM users WHERE id = $1', [user_id]);
       if (userCheck.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });
+      }
+      if (!userCheck.rows[0].is_active) {
+        return res.status(403).json({ error: 'User is inactive' });
       }
       updates.push(`user_id = $${paramCount++}`);
       values.push(user_id);
@@ -115,14 +156,30 @@ const updateTransaction = async (req, res) => {
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Update transaction error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
 const deleteTransaction = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'Transaction ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid transaction ID. Must be a number' });
+    }
 
     // Check if transaction exists
     const transactionCheck = await pool.query('SELECT id FROM transactions WHERE id = $1', [id]);
@@ -133,8 +190,8 @@ const deleteTransaction = async (req, res) => {
     await pool.query('DELETE FROM transactions WHERE id = $1', [id]);
     res.json({ message: 'Transaction deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Delete transaction error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 

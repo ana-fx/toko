@@ -128,14 +128,8 @@
       "_type": "request",
       "parentId": "fld_categories",
       "name": "GET Category By ID",
-      "url": "http://localhost:3000/api/categories/:id",
-      "method": "GET",
-      "parameters": [
-        {
-          "name": "id",
-          "value": "6"
-        }
-      ]
+      "url": "http://localhost:3000/api/categories/6",
+      "method": "GET"
     },
     {
       "_id": "req_create_category",
@@ -164,7 +158,7 @@
       "_type": "request",
       "parentId": "fld_categories",
       "name": "PUT Update Category",
-      "url": "http://localhost:3000/api/categories/:id",
+      "url": "http://localhost:3000/api/categories/6",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
@@ -179,12 +173,6 @@
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
         }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "6"
-        }
       ]
     },
     {
@@ -192,18 +180,12 @@
       "_type": "request",
       "parentId": "fld_categories",
       "name": "DELETE Category",
-      "url": "http://localhost:3000/api/categories/:id",
+      "url": "http://localhost:3000/api/categories/6",
       "method": "DELETE",
       "headers": [
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "6"
         }
       ]
     },
@@ -227,14 +209,8 @@
       "_type": "request",
       "parentId": "fld_products",
       "name": "GET Product By ID",
-      "url": "http://localhost:3000/api/products/:id",
-      "method": "GET",
-      "parameters": [
-        {
-          "name": "id",
-          "value": "26"
-        }
-      ]
+      "url": "http://localhost:3000/api/products/26",
+      "method": "GET"
     },
     {
       "_id": "req_create_product",
@@ -263,7 +239,7 @@
       "_type": "request",
       "parentId": "fld_products",
       "name": "PUT Update Product",
-      "url": "http://localhost:3000/api/products/:id",
+      "url": "http://localhost:3000/api/products/26",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
@@ -278,12 +254,6 @@
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
         }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "26"
-        }
       ]
     },
     {
@@ -291,18 +261,12 @@
       "_type": "request",
       "parentId": "fld_products",
       "name": "DELETE Product",
-      "url": "http://localhost:3000/api/products/:id",
+      "url": "http://localhost:3000/api/products/26",
       "method": "DELETE",
       "headers": [
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "26"
         }
       ]
     },
@@ -332,18 +296,12 @@
       "_type": "request",
       "parentId": "fld_transactions",
       "name": "GET Transaction By ID (Admin)",
-      "url": "http://localhost:3000/api/transactions/:id",
+      "url": "http://localhost:3000/api/transactions/16",
       "method": "GET",
       "headers": [
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "16"
         }
       ]
     },
@@ -396,7 +354,7 @@
       "_type": "request",
       "parentId": "fld_transactions",
       "name": "PUT Update Transaction (Admin)",
-      "url": "http://localhost:3000/api/transactions/:id",
+      "url": "http://localhost:3000/api/transactions/16",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
@@ -410,12 +368,6 @@
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "16"
         }
       ]
     },
@@ -467,18 +419,12 @@
       "_type": "request",
       "parentId": "fld_user_management",
       "name": "GET User By ID (Profile)",
-      "url": "http://localhost:3000/api/users/:id",
+      "url": "http://localhost:3000/api/users/4",
       "method": "GET",
       "headers": [
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "4"
         }
       ]
     },
@@ -487,7 +433,7 @@
       "_type": "request",
       "parentId": "fld_user_management",
       "name": "PUT Deactivate User",
-      "url": "http://localhost:3000/api/users/:id",
+      "url": "http://localhost:3000/api/users/5",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
@@ -502,12 +448,6 @@
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
         }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "5"
-        }
       ]
     },
     {
@@ -515,7 +455,7 @@
       "_type": "request",
       "parentId": "fld_user_management",
       "name": "PUT Reactivate User",
-      "url": "http://localhost:3000/api/users/:id",
+      "url": "http://localhost:3000/api/users/5",
       "method": "PUT",
       "body": {
         "mimeType": "application/json",
@@ -529,12 +469,6 @@
         {
           "name": "Authorization",
           "value": "Bearer {{ accessToken }}"
-        }
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "value": "5"
         }
       ]
     },

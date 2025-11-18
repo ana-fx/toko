@@ -15,7 +15,24 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid user ID. Must be a number' });
+    }
+
     const result = await pool.query(
       'SELECT id, name, email, role, is_active, created_at FROM users WHERE id = $1',
       [id]
@@ -27,14 +44,31 @@ const getUserById = async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Get user by ID error:', error);
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
 const updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid user ID. Must be a number' });
+    }
+
     const { name, email, role, is_active, password } = req.body;
 
     // Check if user exists
@@ -77,19 +111,42 @@ const updateUser = async (req, res) => {
     }
 
     values.push(id);
-    const query = `UPDATE users SET ${updates.join(', ')}, updated_at = NOW() WHERE id = $${paramCount} RETURNING id, name, email, role, is_active, created_at`;
+    const query = `UPDATE users SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING id, name, email, role, is_active, created_at`;
     
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Update user error:', error);
+    // Check for specific database errors
+    if (error.code === '23505') { // Unique violation
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+    if (error.code === '23514') { // Check constraint violation
+      return res.status(400).json({ error: 'Invalid role value' });
+    }
+    res.status(500).json({ error: 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.message : undefined });
   }
 };
 
 const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    // Get ID from params (path parameter) or query (fallback for Insomnia)
+    let id = req.params.id || req.query.id;
+    
+    // Handle Insomnia placeholder :id
+    if (id === ':id' || id === undefined) {
+      id = req.query.id;
+    }
+    
+    if (!id || id === ':id') {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+    
+    // Convert to integer and validate
+    id = parseInt(id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid user ID. Must be a number' });
+    }
 
     // Check if user exists
     const userCheck = await pool.query('SELECT id FROM users WHERE id = $1', [id]);
